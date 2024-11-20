@@ -2,5 +2,95 @@
 <sdf version="1.8">
     <world name="test_world">
         <light name="lighting" type="directional"/>
+        <model name="ground_plane">
+            <static>true</static>
+            <pose>0 0 0 0 0 0</pose>
+            <link name="link">
+                <collision name="ground_collision">
+                    <geometry>
+                        <plane>
+                            <normal>0 0 1</normal>
+                            <size>100 100</size>
+                        </plane>
+                    </geometry>
+                </collision>
+                <visual name="ground_visual">
+                    <geometry>
+                        <plane>
+                            <normal>0 0 1</normal>
+                            <size>100 100</size>
+                        </plane>
+                    </geometry>
+                    <material>
+                        <ambient>0.8 0.8 0.8 1</ambient>
+                        <diffuse>0.8 0.8 0.8 1</diffuse>
+                        <specular>0.8 0.8 0.8 1</specular>
+                    </material>
+                </visual>
+            </link>
+        </model>
+        <model name="target">
+            <pose>0.5 -0.5 0.025 0 0 0</pose>
+            <static>true</static>
+            <link name="target_link">
+                <collision name="target_collision">
+                    <geometry>
+                        <cylinder>
+                            <radius>0.1</radius>
+                            <length>0.01</length>
+                        </cylinder>
+                    </geometry>
+                </collision>
+                <visual name="target_visual">
+                    <geometry>
+                        <cylinder>
+                            <radius>0.2</radius>
+                            <length>0.05</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <!-- Red color -->
+                        <ambient>1 0.2 0.2 1</ambient>
+                        <diffuse>1 0.2 0.2 1</diffuse>
+                        <specular>1 0.2 0.2 1</specular>
+                    </material>
+                </visual>
+            </link>
+        </model>
+        <model name="starting_platform">
+            <pose>0.5 0.5 0.025 0 0 0</pose>
+            <static>true</static>
+            <link name="target_link">
+                <collision name="target_collision">
+                    <geometry>
+                        <cylinder>
+                            <radius>0.1</radius>
+                            <length>0.01</length>
+                        </cylinder>
+                    </geometry>
+                </collision>
+                <visual name="target_visual">
+                    <geometry>
+                        <cylinder>
+                            <radius>0.2</radius>
+                            <length>0.05</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <!-- Blue color -->
+                        <ambient>0.2 0.2 1 1</ambient>
+                        <diffuse>0.2 0.2 1 1</diffuse>
+                        <specular>0.2 0.2 1 1</specular>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="coffee_mug">
+            <pose>0.5 0.5 0.05 0 0 0</pose>
+            <include>
+                <uri>https://fuel.gazebosim.org/1.0/GoogleResearch/models/ACE_Coffee_Mug_Kristen_16_oz_cup</uri>
+            </include>
+        </model>
     </world>
 </sdf>

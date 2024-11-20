@@ -26,3 +26,5 @@ for file in robot_filenames:
     )
     launch_service.run()
     launch_service.shutdown
+    print("\nNext Robot? y/n")
+    if input() != "y": break
