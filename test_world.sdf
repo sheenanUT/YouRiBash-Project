@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.8">
     <world name="test_world">
+        <light name="lighting" type="directional"/>
     </world>
 </sdf>

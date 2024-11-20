@@ -1,0 +1,8 @@
+List of robot urdfs that work or don't work
+
+WORKING:
+Franka Panda
+Kinova
+
+NOT WORKING:
+Kuka iiwa
