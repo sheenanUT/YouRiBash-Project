@@ -7,7 +7,7 @@ from launch_ros.substitutions import FindPackageShare
 robots_directory = "/home/sheneman/YouRiBash-Project/robot-assets/urdfs/robots/"
 robot_filenames = ["franka_panda/panda.urdf",
                    "kinova/kinova.urdf"]
-                   
+#Robot for loop
 for file in robot_filenames:
     launch_service = LaunchService()
     launch_service.include_launch_description(
