@@ -6,7 +6,8 @@ package_name = 'robot_assets'
 
 robot_names = ['franka_panda', 'kinova']
 robot_files = [(os.path.join('share', package_name, 'robots/' + name),
-                glob('robots/' + name + '/meshes/**/*.*', recursive=True)) for name in robot_names]
+                glob("robots/urdfs/robots/" + name + "/**/*.*", recursive=True)) for name in robot_names]
+
 
 setup(
     name=package_name,

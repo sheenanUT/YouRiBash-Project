@@ -1,13 +1,13 @@
 moveit_setup_assistant_config:
   urdf:
     package: robot_assets
-    relative_path: robots/franka_panda/franka_panda.urdf
+    relative_path: robots/kinova/kinova.urdf
   srdf:
-    relative_path: config/franka_panda.srdf
+    relative_path: config/kinova.srdf
   package_settings:
     author_name: Brandon Sheneman
     author_email: sheneman23@utexas.edu
-    generated_timestamp: 1733293832
+    generated_timestamp: 1733255577
   control_xacro:
     command:
       - position
