@@ -3,7 +3,7 @@
     <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
 
     <!-- Import panda urdf file -->
-    <xacro:include filename="$(find robot_assets)/robots/franka_panda/panda.urdf" />
+    <xacro:include filename="$(find robot_assets)/robots/franka_panda/franka_panda.urdf" />
 
     <!-- Import control_xacro -->
     <xacro:include filename="panda.ros2_control.xacro" />
