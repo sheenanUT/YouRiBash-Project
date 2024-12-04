@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: robot_assets
+    relative_path: robots/kinova/kinova.urdf
+  srdf:
+    relative_path: config/kinova.srdf
+  package_settings:
+    author_name: Brandon Sheneman
+    author_email: sheneman23@utexas.edu
+    generated_timestamp: 1733255577
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity

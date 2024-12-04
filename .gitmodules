@@ -1,3 +1,4 @@
-[submodule "robot-assets"]
-	path = robot-assets
-	url = git@github.com:ankurhanda/robot-assets.git
+[submodule "src/robot_assets/robots"]
+	path = src/robot_assets/robots
+	url = git@github.com:sheenanUT/robot-assets.git
+	branch = master
