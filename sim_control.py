@@ -1,5 +1,3 @@
-import rclpy
-
 from launch import LaunchService
 from launch.actions import IncludeLaunchDescription
 from launch_ros.actions import Node
@@ -7,12 +5,12 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
-robots_directory = "/home/sheneman/YouRiBash-Project/robot-assets/urdfs/robots/"
-robot_filenames = ["franka_panda/panda.urdf",
-                   "kinova/kinova.urdf"]
+robot_names = ["franka_panda",
+               "kinova"]
 
 # For loop to iterate through all robots files
-for file in robot_filenames:
+for name in robot_names:
+    urdf_path = f"/home/sheneman/YouRiBash-Project/src/robot_configs/{name}_config/config/{name}.urdf"
     # Use a launch file to start the gazebo simulation
     launch_service = LaunchService()
     launch_service.include_launch_description(
@@ -35,7 +33,7 @@ for file in robot_filenames:
             package='ros_gz_sim',
             executable='create',
             arguments=[
-                "-file", robots_directory + file,
+                "-file", urdf_path,
                 "-name", "robot",
             ]
         )
@@ -45,6 +43,6 @@ for file in robot_filenames:
     # Shut everything down for the next test
     launch_service.shutdown()
 
-    if file != robot_filenames[-1]:
+    if name != robot_names[-1]:
         print("\nNext Robot? y/n")
         if input() != "y": break
