@@ -8,6 +8,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from moveit_configs_utils import MoveItConfigsBuilder
 import asyncio
 import rclpy
+import time
 
 robot_names = ["franka_panda",
                "kinova"]
@@ -117,8 +118,7 @@ def launch_moveit(robot_name, sim_type, rviz=False):
     )
 
     async def sim_task():
-        task = asyncio.create_task(sim_launch_service.run_async())
-        await asyncio.wait_for(task, 5)
+        await asyncio.wait_for((sim_launch_service.run_async()), 5)
 
     try:
         asyncio.run(sim_task())
@@ -126,8 +126,11 @@ def launch_moveit(robot_name, sim_type, rviz=False):
         print("Cancelled task")
 
     # Shut everything down for the next test
-    sim_launch_service.shutdown()
-    print("Shut down service")
+    print("Shutting down...")
+    sim_launch_service.shutdown(force_sync=True)
+    time.sleep(5)
 
 if __name__ == "__main__":
+    rclpy.init()
     launch_moveit("franka_panda", "basic")
+    rclpy.shutdown()
