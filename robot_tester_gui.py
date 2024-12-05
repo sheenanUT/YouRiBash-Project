@@ -2,6 +2,8 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
+from get_kinematics import *
+
 # Robot Tester GUI class handles all of the GUI creation and interactions
 class RobotTesterGUI(QMainWindow):
     def __init__(self):
@@ -169,18 +171,13 @@ class RobotTesterGUI(QMainWindow):
 
     def run_simulation(self):
         # Run simulation function that calls Gazebo and runs the simulation for each robot and each task
-        results = [{'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3},
-                   {'Robot': 'Kuka', 'Task': 'Obstacle', 'Time (s)': 5.23 , 'Total Distance (m)': 2.3}]
-
+        results = []
+        for robot in self.simulation_robots:
+            for task in self.simulation_tasks:
+                sim_data = np.array([[1,1,1,4],[1,1,1,4]])
+                results_data = get_kinematics(sim_data)
+                results.append({'Robot': robot, 'Task': task, 'Time (s)': results_data[1], 'Total Distance (m)': results_data[0]})
+                
         # Updates the results table on the second page of the GUI with the results from the headless simulation
         self.results_table.setRowCount(len(results))
         for row, result in enumerate(results):
