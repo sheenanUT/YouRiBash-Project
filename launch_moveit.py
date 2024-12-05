@@ -12,9 +12,12 @@ import rclpy
 robot_names = ["franka_panda",
                "kinova"]
 
-def run_sim(robot_name):
+def launch_moveit(robot_name, sim_type):
     package_name = robot_name + "_config"
     moveit_config = MoveItConfigsBuilder(robot_name, package_name=package_name).to_moveit_configs()
+
+    # sim_type should be one of: basic, obs, elev, obs_elev
+    mtc_file = "mtc_" + sim_type + "+.launch.py"
 
     # Use launch files to start the MoveIt suite
     sim_launch_service = LaunchService()
@@ -81,7 +84,7 @@ def run_sim(robot_name):
                 PathJoinSubstitution([
                     FindPackageShare('mtc_tutorial'),
                     'launch',
-                    'pick_place_demo.launch.py'
+                    mtc_file
                 ])
             ])
         )
@@ -101,4 +104,4 @@ def run_sim(robot_name):
     print("Shut down service")
 
 if __name__ == "__main__":
-    run_sim("franka_panda")
+    launch_moveit("franka_panda", "basic")
