@@ -12,12 +12,12 @@ import rclpy
 robot_names = ["franka_panda",
                "kinova"]
 
-def launch_moveit(robot_name, sim_type):
+def launch_moveit(robot_name, sim_type, rviz=False):
     package_name = robot_name + "_config"
     moveit_config = MoveItConfigsBuilder(robot_name, package_name=package_name).to_moveit_configs()
 
     # sim_type should be one of: basic, obs, elev, obs_elev
-    mtc_file = "mtc_" + sim_type + "+.launch.py"
+    mtc_file = "mtc_" + sim_type + ".launch.py"
 
     # Use launch files to start the MoveIt suite
     sim_launch_service = LaunchService()
@@ -76,6 +76,20 @@ def launch_moveit(robot_name, sim_type):
             ],
         )
     )
+
+    if rviz:
+        # Launch RVIZ
+        sim_launch_service.include_launch_description(
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    PathJoinSubstitution([
+                        FindPackageShare(package_name),
+                        'launch',
+                        'moveit_rviz.launch.py'
+                    ])
+                ])
+            )
+        )
 
     # MoveIt Task Constructor execution
     sim_launch_service.include_launch_description(

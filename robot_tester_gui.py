@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 from get_kinematics import *
+from launch_moveit import launch_moveit
 
 # Robot Tester GUI class handles all of the GUI creation and interactions
 class RobotTesterGUI(QMainWindow):
@@ -58,7 +59,7 @@ class RobotTesterGUI(QMainWindow):
 
         # Create a checkbox for each robot in the list
         self.robot_checkboxes = []
-        robot_names = ['R1', 'R2', 'R3','R4', 'R5', 'R6','R7', 'R8', 'R9','R10', 'R11', 'R12','R13','R14','R15','R16','R17','R18','R19','R20','R21','R22','R23', 'R24', 'R25', 'R26']
+        robot_names = ['franka_panda', 'R2', 'R3','R4', 'R5', 'R6','R7', 'R8', 'R9','R10', 'R11', 'R12','R13','R14','R15','R16','R17','R18','R19','R20','R21','R22','R23', 'R24', 'R25', 'R26']
         for name in robot_names:
             checkbox = QCheckBox(name)
             checkbox.stateChanged.connect(self.update_simulation_robots) # Update the variable that tracks which robots are selected
@@ -171,10 +172,18 @@ class RobotTesterGUI(QMainWindow):
 
     def run_simulation(self):
         # Run simulation function that calls Gazebo and runs the simulation for each robot and each task
+        task_name_dict = {
+            "Basic" : "basic",
+            "Obstacle" : "obs",
+            "Elevation" : "elev",
+            "Obstacle + Elevation" : "obs_elev"
+        }
         results = []
         for robot in self.simulation_robots:
             for task in self.simulation_tasks:
-                sim_data = np.array([[1,1,1,4],[1,1,1,4]])
+                print(f"Running task {task} with robot {robot}")
+                launch_moveit(robot, task_name_dict[task])
+                sim_data = np.array([[0, 0, 0, 0],[1, 1, 1, 1]])
                 results_data = get_kinematics(sim_data)
                 results.append({'Robot': robot, 'Task': task, 'Time (s)': results_data[1], 'Total Distance (m)': results_data[0]})
                 
@@ -192,9 +201,9 @@ class RobotTesterGUI(QMainWindow):
     
     def run_full_simulation(self):
         # Run full simulation function that opens Gazebo to simulate and visualize the robot selected by the user
-        
         # Checks to make sure that a robot has been selected by the user and prints which robot will be simulated and visualized in Gazebo
         if self.visualize_robot:
+            launch_moveit(self.visualize_robot, "obs_elev", rviz=True)
             print(f'Running complete simulation and visuaizing in Gazebo for {self.visualize_robot}')
         else:
             print('No robot selected for complete simulation')
