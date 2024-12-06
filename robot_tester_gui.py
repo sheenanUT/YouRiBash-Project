@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 from get_kinematics import *
-from launch_moveit import launch_moveit
+# from launch_moveit import launch_moveit
 
 # Robot Tester GUI class handles all of the GUI creation and interactions
 class RobotTesterGUI(QMainWindow):
@@ -11,7 +11,7 @@ class RobotTesterGUI(QMainWindow):
         # Initializing main GUI window
         super().__init__()
         self.setWindowTitle('Robot Pick-and-Place Task Performance Tester')
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 1000, 800)
 
         # Initializing variables to track user selections
         self.simulation_robots = []
@@ -59,7 +59,7 @@ class RobotTesterGUI(QMainWindow):
 
         # Create a checkbox for each robot in the list
         self.robot_checkboxes = []
-        robot_names = ['franka_panda', 'R2', 'R3','R4', 'R5', 'R6','R7', 'R8', 'R9','R10', 'R11', 'R12','R13','R14','R15','R16','R17','R18','R19','R20','R21','R22','R23', 'R24', 'R25', 'R26']
+        robot_names = ['fetch', 'franka_panda', 'halodi', 'kinova', 'kuka_iiwa', 'pr2', 'ur10', 'ur5', 'yumi']
         for name in robot_names:
             checkbox = QCheckBox(name)
             checkbox.stateChanged.connect(self.update_simulation_robots) # Update the variable that tracks which robots are selected
@@ -107,8 +107,8 @@ class RobotTesterGUI(QMainWindow):
 
         # Create a table at the top of the page that displays the headless simulation results
         layout.addWidget(QLabel('Pick-and-Place Simulation Results:'))
-        self.results_table = QTableWidget(0,4)
-        self.results_table.setHorizontalHeaderLabels(['Robot', 'Task', 'Time (s)', 'Total Distance (m)'])
+        self.results_table = QTableWidget(0,5)
+        self.results_table.setHorizontalHeaderLabels(['Robot', 'Task', 'Time (s)', 'Total Distance (m)', 'Max Acceleration (m/s^2)'])
         self.results_table.setColumnWidth(0, 150)
         layout.addWidget(self.results_table, stretch=3)
 
@@ -125,7 +125,7 @@ class RobotTesterGUI(QMainWindow):
         # Create the buttons for each robot to be selected to visualize and simulate in Gazebo
         self.robot_radio_buttons = QButtonGroup()
         self.radio_buttons = []
-        robot_names = ['R1', 'R2', 'R3','R4', 'R5', 'R6','R7', 'R8', 'R9','R10', 'R11', 'R12']
+        robot_names = ['fetch', 'franka_panda', 'halodi', 'kinova', 'kuka_iiwa', 'pr2', 'ur10', 'ur5', 'yumi']
         for name in robot_names:
             radio_button = QRadioButton(name)
             radio_button.toggled.connect(self.update_visualize_robot) # Update the variable that tracks which robot is selected
@@ -182,10 +182,11 @@ class RobotTesterGUI(QMainWindow):
         for robot in self.simulation_robots:
             for task in self.simulation_tasks:
                 print(f"Running task {task} with robot {robot}")
-                launch_moveit(robot, task_name_dict[task])
-                sim_data = np.array([[0, 0, 0, 0],[1, 1, 1, 1]])
+                #launch_moveit(robot, task_name_dict[task])
+                data_read = pd.read_csv('received_data.csv')
+                sim_data = data_read.to_numpy()
                 results_data = get_kinematics(sim_data)
-                results.append({'Robot': robot, 'Task': task, 'Time (s)': results_data[1], 'Total Distance (m)': results_data[0]})
+                results.append({'Robot': robot, 'Task': task, 'Time (s)': results_data[0], 'Total Distance (m)': results_data[1], 'Max Acceleration (m/s^2)': results_data[2]})
                 
         # Updates the results table on the second page of the GUI with the results from the headless simulation
         self.results_table.setRowCount(len(results))
@@ -194,6 +195,7 @@ class RobotTesterGUI(QMainWindow):
             self.results_table.setItem(row, 1, QTableWidgetItem(result['Task']))
             self.results_table.setItem(row, 2, QTableWidgetItem(str(result['Time (s)'])))
             self.results_table.setItem(row, 3, QTableWidgetItem(str(result['Total Distance (m)'])))
+            self.results_table.setItem(row, 4, QTableWidgetItem(str(result['Max Acceleration (m/s^2)'])))
         self.results_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         # Switches to the results page after the simulation is complete
@@ -203,7 +205,7 @@ class RobotTesterGUI(QMainWindow):
         # Run full simulation function that opens Gazebo to simulate and visualize the robot selected by the user
         # Checks to make sure that a robot has been selected by the user and prints which robot will be simulated and visualized in Gazebo
         if self.visualize_robot:
-            launch_moveit(self.visualize_robot, "obs_elev", rviz=True)
+            #launch_moveit(self.visualize_robot, "obs_elev", rviz=True)
             print(f'Running complete simulation and visuaizing in Gazebo for {self.visualize_robot}')
         else:
             print('No robot selected for complete simulation')
