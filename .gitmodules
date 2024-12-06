@@ -6,3 +6,7 @@
 	path = src/moveit_task_constructor
 	url = git@github.com:moveit/moveit_task_constructor.git
 	branch = humble
+[submodule "src/moveit2_tutorials"]
+	path = src/moveit2_tutorials
+	url = git@github.com:moveit/moveit2_tutorials.git
+	branch = humble
