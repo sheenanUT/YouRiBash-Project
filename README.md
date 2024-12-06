@@ -1,16 +1,37 @@
-How to run this package (so far):
+# YouRiBash Robot Tester
 
-    1. Install ROS2 and Gazebo Sim
-    2. Change any reference to "sheneman" to your username (going to fix this later)
-    3. cd to the top directory (i.e. /YouRiBash-Project/)
-    4. Run "git submodule update --init --recursive"
-    5. Run "python3 sim_control.py"
+## Setup Instructions
+Requires [ROS2](https://docs.ros.org/en/humble/Installation.html)
 
-What this should do:
+Open command line to the workspace directory
 
-Run an empty Gazebo sim called "test_world" and spawn a Franka Panda in the center. The script is set up such that you don't need to interact with ROS directly, so we can eventually move this functionality to the main script.
+    cd ~/YouRiBash-Project
 
-TODO:
+Download submodules
 
-    * Add grasping object, obstacles, target to the sim world
-    * Let the user specify which robot to spawn
+    git submodule update --init --remote
+
+Install dependencies
+
+    rosdep install --from-paths src -iy
+
+Build the necessary packages
+
+    colcon build --packages-up-to mtc_tutorial
+
+Source the workspace
+
+    source install/setup.bash
+
+## Tester GUI
+To use the GUI simply run **robot_tester_gui.py**. From here you can select which robots to test and which tasks to test them on. The GUI starts the MoveIt simulation through the *launch_moveit* function.
+
+## MoveIt Integration
+The *launch_moveit* function integrates with ROS2 to create a MoveIt simulation. It works by using a *LaunchService* to run launch files from various launch packages. The file **launch_moveit.py** can be run independently from the GUI for testing.
+
+## MoveIt Task Constructor
+
+## TF Listener
+
+## Robot Configs
+Each robot configuration package contains the necessary files and parameters to simulate and control a robot with MoveIt. They also contain launch files such as **demo.launch.py** which launches a simple RViz simulation containing the robot. These config packages were created using the MoveIt Setup Assistant.

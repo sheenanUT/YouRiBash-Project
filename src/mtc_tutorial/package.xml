@@ -12,7 +12,10 @@
   <depend>moveit_task_constructor_core</depend>
   <depend>rclcpp</depend>
   <depend>franka_panda_config</depend>
+  <depend>kinova_config</depend>
   <depend>robot_assets</depend>
+
+  <depend>moveit2_tutorials</depend>
   
 
   <test_depend>ament_lint_auto</test_depend>
