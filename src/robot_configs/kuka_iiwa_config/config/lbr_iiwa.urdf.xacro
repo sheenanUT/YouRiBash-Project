@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lbr_iiwa">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import lbr_iiwa urdf file -->
+    <xacro:include filename="$(find robot_assets)/robots/urdfs/robots/kuka_iiwa/model.urdf" />
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="lbr_iiwa.ros2_control.xacro" />
+
+
+    <xacro:lbr_iiwa_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+</robot>

@@ -1,0 +1,10 @@
+# Default initial positions for lbr_iiwa's ros2_control fake system
+
+initial_positions:
+  lbr_iiwa_joint_1: 0
+  lbr_iiwa_joint_2: 0
+  lbr_iiwa_joint_3: 0
+  lbr_iiwa_joint_4: 0
+  lbr_iiwa_joint_5: 0
+  lbr_iiwa_joint_6: 0
+  lbr_iiwa_joint_7: 0

@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def get_kinematics(sim_data):
     # Let sim_data be a N x 4 array, N data points
@@ -8,11 +9,11 @@ def get_kinematics(sim_data):
     sim_data_diff = np.diff(sim_data, axis=0)
 
     # Velocity = ds / dt
-    velocities = sim_data_diff[:, :3] / sim_data_diff[:, 3]
+    velocities = sim_data_diff[:, :3] / (sim_data_diff[:, 3]).reshape(-1,1)
 
     # Accel = dv / dt
     vel_diff = np.diff(velocities, axis=0)
-    accels = vel_diff / sim_data_diff[:-1, 3]
+    accels = vel_diff / (sim_data_diff[:-1, 3]).reshape(-1,1)
 
     # Get magnitudes of s, v, a
     sx = sim_data_diff[:, 0]
@@ -35,5 +36,4 @@ def get_kinematics(sim_data):
     s_total = np.sum(dist_mags)
     a_max = np.max(accel_mags)
 
-    return(s_total, t_total, a_max)
-
+    return(round(t_total,2),round(s_total,2), round(a_max,2))
